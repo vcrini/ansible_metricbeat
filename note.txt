@@ -1,0 +1,2 @@
+# /etc/rc.d/init.d/functions: No such file or directory\n/etc/init.d/metricbeat: line 44: status: command not found
+yum install -y initscripts
