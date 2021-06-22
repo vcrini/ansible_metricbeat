@@ -1,35 +1,26 @@
 ---
-- name: metricbeat 
-  hosts: localhost
-  roles:
-    - role: elastic.beats
-  vars: 
-    beats: 7.13.1
-    beat: metricbeat
-    output_conf : 
-      elasticsearch:
-        hosts: "elasticsearch:9200"
-    beat_conf:
-      metricbeat.modules:
-        - module: system
-          metricsets:
-            # - cpu             # CPU usage
-            #- load            # CPU load averages
-            #- memory          # Memory usage
-            #- network         # Network IO
-            #- process         # Per process metrics
-            #- process_summary # Process summary
-            #- uptime          # System Uptime
-            #- socket_summary  # Socket summary
-            #- core           # Per CPU core usage
-            #- diskio         # Disk IO
-            - filesystem     # File system usage for each mountpoint
-            #- fsstat         # File system summary metrics
-            #- raid           # Raid
-            #- socket         # Sockets and connection info (linux only)
-            #- service        # systemd service information
-          enabled: true
-          period: 10s
-          processes: ['.*']
-  
-  
+
+- hosts: localhost
+  tasks:
+    - name: setup metricbeat plugin
+      ansible.builtin.command: /usr/bin/ansible-galaxy install elastic.beats,v7.13.1
+      register: myag
+    - debug: msg="{{myag.stdout}}"
+    - debug: msg="{{myag.stderr}}"
+    - name: install metricbeat plugin
+      include_role: 
+        name: elastic.beats
+      vars: 
+        beats: 7.13.1
+        beat: metricbeat
+        output_conf : 
+          elasticsearch:
+            hosts: "elasticsearch:9200"
+        beat_conf:
+          metricbeat.modules:
+            - module: system
+              metricsets:
+                - filesystem     # File system usage for each mountpoint
+              enabled: true
+              period: 10s
+              processes: ['.*']

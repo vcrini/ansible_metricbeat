@@ -5,13 +5,10 @@ services:
       context: .
       dockerfile: dockerfile.metricbeat
     entrypoint: ["sh", "-c", "cd /ansible_metricbeat; ansible-playbook local_playbook.yml;sleep 2073600"]
-    #entrypoint: ["sh", "-c", "sleep 2073600"]
     volumes:
       - .:/ansible_metricbeat
   kibana:
     image: kibana:7.8.1
-    #env_file:
-    #  - kibana.env
     ports:
       - 5601:5601
   elasticsearch:

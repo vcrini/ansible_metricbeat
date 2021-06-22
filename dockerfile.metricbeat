@@ -1,4 +1,4 @@
 from centos:7
 RUN yum install -y epel-release
 RUN yum install -y ansible initscripts 
-RUN ansible-galaxy install elastic.beats
+#RUN ansible-galaxy install elastic.beats
